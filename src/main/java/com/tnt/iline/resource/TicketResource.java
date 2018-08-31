@@ -31,6 +31,8 @@ public class TicketResource {
 		List<Ticket> list = ticketService.findAll();
 		List<TicketDTO> listDTO = list.stream().map(x -> new TicketDTO(x)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
+		
+		
 	}
 	
 	@CrossOrigin(origins = "http://localhost:3000")
@@ -65,5 +67,12 @@ public class TicketResource {
 		obj.setId(id);
 		obj = ticketService.update(obj);
 		return ResponseEntity.noContent().build();	
+	}
+	
+	@CrossOrigin(origins = "http://localhost:3000")
+	@RequestMapping(value="/max", method=RequestMethod.GET)
+	public ResponseEntity<TicketDTO> findMax(){
+		Ticket obj = ticketService.maxTicket();
+		return ResponseEntity.ok().body(new TicketDTO(obj));		
 	}
 }

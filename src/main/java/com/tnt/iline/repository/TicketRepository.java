@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 import com.tnt.iline.domain.Ticket;
 
 @Repository
-public interface TicketRepository extends MongoRepository<Ticket, String>{
+public interface TicketRepository extends MongoRepository<Ticket, String>, TicketRepositoryCustom{
 
+	
+	
 }

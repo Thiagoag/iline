@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.tnt.iline.DTO.TicketDTO;
@@ -16,8 +19,15 @@ public class TicketService {
 
 	@Autowired
 	private TicketRepository ticketRepository;
+	
+	@Autowired
+    private MongoTemplate mongoTemplate;	
 
 	public List<Ticket> findAll() {
+		return ticketRepository.findAll();
+	}
+	
+	public List<Ticket> findAllSorted(){
 		
 		return ticketRepository.findAll();
 	}
@@ -48,5 +58,11 @@ public class TicketService {
 	public void delete(String id) {
 		findById(id);
 		ticketRepository.deleteById(id);
+	}
+	
+
+	public Ticket maxTicket() {
+		return ticketRepository.maxTicket();
+
 	}
 }
