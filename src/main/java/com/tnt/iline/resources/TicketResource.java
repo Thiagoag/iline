@@ -1,6 +1,7 @@
-package com.tnt.iline.resource;
+package com.tnt.iline.resources;
 
 import java.net.URI;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,11 +12,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.tnt.iline.DTO.TicketDTO;
 import com.tnt.iline.domain.Ticket;
+import com.tnt.iline.resources.util.URL;
 import com.tnt.iline.services.TicketService;
 
 @RestController
@@ -74,5 +77,19 @@ public class TicketResource {
 	public ResponseEntity<TicketDTO> findMax(){
 		Ticket obj = ticketService.maxTicket();
 		return ResponseEntity.ok().body(new TicketDTO(obj));		
+	}
+	
+	@CrossOrigin(origins = "http://localhost:3000")
+	@RequestMapping(value="/getnextticket", method=RequestMethod.GET)
+	public ResponseEntity<Ticket> fullSearch(
+			@RequestParam(value="priority", defaultValue="") String priorityText,
+			@RequestParam(value="minDate", defaultValue="") String minDate,
+			@RequestParam(value="maxDate", defaultValue="") String maxDate){
+		boolean priority = URL.convertBoolean(priorityText, false);
+		Date min = URL.convertDate(minDate, new Date(0L));
+		Date max = URL.convertDate(maxDate, new Date());
+		
+		Ticket ticket = ticketService.getNextPendingTicket(priority, min, max);
+		return ResponseEntity.ok().body(ticket);		
 	}
 }

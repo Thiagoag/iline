@@ -1,12 +1,12 @@
 package com.tnt.iline.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.tnt.iline.DTO.TicketDTO;
@@ -19,9 +19,6 @@ public class TicketService {
 
 	@Autowired
 	private TicketRepository ticketRepository;
-	
-	@Autowired
-    private MongoTemplate mongoTemplate;	
 
 	public List<Ticket> findAll() {
 		return ticketRepository.findAll();
@@ -64,5 +61,11 @@ public class TicketService {
 	public Ticket maxTicket() {
 		return ticketRepository.maxTicket();
 
+	}
+
+	public Ticket getNextPendingTicket(boolean priority, Date minDate, Date maxDate) {
+		maxDate  = new Date(maxDate.getTime() + 24 * 60 * 60 * 1000);
+		Ticket ticket =  ticketRepository.getNextPendingTicket(priority, minDate, maxDate, PageRequest.of(0, 1, new Sort(Sort.Direction.DESC, "number"))).getContent().get(0);
+		return  ticket;
 	}
 }

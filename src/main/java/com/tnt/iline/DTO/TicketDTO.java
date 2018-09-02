@@ -20,6 +20,7 @@ public class TicketDTO implements Serializable{
 		number = obj.getNumber();
 		creationDate = obj.getCreationDate();
 		callDate = obj.getCallDate();
+		priority = obj.isPriority();
 	}
 
 	public TicketDTO(String id, int number) {

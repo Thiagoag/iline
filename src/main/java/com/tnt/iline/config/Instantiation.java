@@ -24,7 +24,12 @@ public class Instantiation implements CommandLineRunner{
 		Ticket t1 = new Ticket(null, 1, new Date(), null, false);
 		Ticket t2 = new Ticket(null, 2, new Date(), null, true);
 		Ticket t3 = new Ticket(null, 3, new Date(), null, false);
-		ticketRepository.saveAll(Arrays.asList(t1, t2, t3));
+		Ticket t4 = new Ticket(null, 3, new Date(), null, false);
+		Ticket t5 = new Ticket(null, 5, new Date(), new Date(), true);
+		Ticket t6 = new Ticket(null, 5, new Date(), null, true);
+		Ticket t7 = new Ticket(null, 6, new Date(), new Date(), false);
+		Ticket t8 = new Ticket(null, 6, new Date(), null, false);
+		ticketRepository.saveAll(Arrays.asList(t1, t2, t3, t4, t5, t6, t7, t8));
 
 	}
 
